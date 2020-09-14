@@ -1,0 +1,23 @@
+# import statements for necessary Python modules
+import requests
+
+def get_rhymes(word):
+    baseurl = "https://api.datamuse.com/words"
+    baseurl1="https://api.datamuse.com/sug"
+    params_diction = {} # Set up an empty dictionary for query parameters
+    params_diction["ml"] = word
+    params_diction["md"]='f'# get at most 3 results
+    dic={}
+    dic['s']=word
+    resp = requests.get(baseurl, params=params_diction)
+    resp1=requests.get(baseurl1, params=dic)
+    word_resp1=resp1.json()
+    print('-----autocomplete-----')
+    print([d['word'] for d in word_resp1],'\n\n')
+    # return the top three words
+    word_ds = resp.json()
+    print('-----------------------')
+    return [d['word'] for d in word_ds]
+    #return resp.json() # Return a python object (a list of dictionaries in this case)
+
+print(get_rhymes(input("word which has similar meaning:")))
